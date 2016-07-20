@@ -1,5 +1,6 @@
 class ArticlesController < ApplicationController
   include ArticlesHelper
+  before_filter :require_login, except: [:index, :show]
 
   def index
   	@articles = Article.all
@@ -44,5 +45,12 @@ class ArticlesController < ApplicationController
     flash.notice = "Article '#{@article.title}' Updated!"
 
   	redirect_to article_path(@article)
+  end
+
+  def require_login
+    unless logged_in?
+      flash[:error] = "You must be logged in to add a new user."
+      redirect_to root_path
+    end
   end
 end
