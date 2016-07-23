@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
   root to: 'articles#index'
+  get "popular" => "articles#popular"
+  
   resources :articles do
+  	collection do
+  		get 'popular'
+  	end
+
   	resources :comments
   end
   resources :tags
